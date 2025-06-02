@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<style>
+			/* FONT DEFINITIONS */
+			@font-face {font-family: "Degular"; src: local("Degular"), url("fonts/DegularVariable.woff2") format("woff2"); font-variation-settings: "wght" 300;}
+			@font-face { font-family: "DegularBold"; src: local("Degular"), url("fonts/DegularVariable.woff2") format("woff2"); font-variation-settings: "wght" 800;}
+		</style>
+		<canvas id="main-bg" class="fullfixedcanv"></canvas>
+		<canvas id="main-bg-buff" class="fullfixedcanv" style="display: none;"></canvas>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					 <div class="bg_clickable" onclick="toggle_bg()"></div>
+					 <p class="p-hint">klicken</p>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1">Gliederung</h1>
+					<div data-markdown>
+					- Intuition
+					- Algorithmus
+					- Eigenschaften
+					- Anwendungen
+					</div>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1">Intuition</h1>
+					<canvas id="reinvent" class="slide-canv"></canvas>
+					<p class="p-hint fixbot">Funktion bekannt</p>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1">Intuition</h1>
+					<canvas id="reinvent-blind" class="slide-canv"></canvas>
+					<p class="p-hint fixbot">Funktion unbekannt</p>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1">Algorithmus </h1>
+					<div data-markdown>
+						Gegeben: Funktion $f(x)$, Vorschläge $G(x_{k+1} | x_k)$, Startpunkt $x_0$
+						1. Ziehe Vorschlag $\quad x' \sim G(x' | x_k)$
+						2. Akzeptanzwahrscheinlichkeit $\quad \alpha = \frac{f(x')}{f(x_k)} \cdot \underbrace{\frac{G(x' | x_k)}{G(x_k | x')}}_{\text{Hastings Term}}$
+						3. Entscheide zufällig: $\quad u \sim \mathcal{U}(0,1)$
+							- $u \leq \alpha: \quad\quad\quad  x_{k+1}  = x'  \quad$ _(Akzeptanz)_
+							- ansonsten: $ \quad x_{k+1}  = x_k \quad$ _(Ablehnung)_
+					</div>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1"> Eigenschaften </h1>
+					<div data-markdown>
+						- $\\{x_k\\}$ bilden eine *Markovkette*
+						- Kette "vergisst", nur $x_k$ bestimmt $x_{k+1}$
+						- stationäre Verteilung $x \sim \pi(x)$
+						- gewollt: $ \pi(x) \overset{!}{=} \frac{f(x)}{\int f(x)} $
+					</div>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1"> Gleichgewicht </h1>
+					<div data-markdown>
+						- per Konstruktion $\pi(x) ℙ(x|y) = \pi(y)  ℙ(y|x)$
+							- _detailed balance_, Equilibrium
+							- Hastings-Term $\frac{G(x' | x_k)}{G(x_k | x')}$ für asymmetrische $G$
+						- $\overset{SC}{\Longrightarrow}$ $\pi(x)$ ist invariante Verteilung zu ℙ
+						- aber ist $\pi(x)$ die korrekte Verteilung?
+					</div>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1"> Ergodizität </h1>
+					<div style="display: flex;">
+						<div class="slide-canv" style="position: relative;">
+							<canvas id="ergo-buf" class="fill" style="z-index:2; position:absolute;top:0; left:0; border: 2px solid white;" height="516" width="960"></canvas>
+							<canvas id="ergo" class="fill" style="z-index:1; position:absolute;top:0; left:0;" height="516" width="960"></canvas>
+						</div>
+						<div style=" border: 2px solid white;width: 25%;height: 50vh;">
+							<p style="font-size: medium;">Standardabweichung (e-3)</p>
+							<input type="number" value="10" id="ergo-small-step" min="1" max="100" style="width:80%"/>
+							<p style="font-size: medium;">ℙ globale Mutation (e-6)</p>
+							<input type="number" value="0" id="ergo-big-step" min="0" max="100000" style="width:80%"/>
+						</div>
+					</div>
+					<p class="p-hint fixbot">zeichnen, M drücken</p>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1"> Ergodizität </h1>
+					<div data-markdown>
+						- Ergodisch = Irreduzibel
+							- $\pi(x) , \pi(y)>0 \Longrightarrow \exists k<\infty: ℙ(x_k \in dy | x) > 0$
+							- _"irgendwann von jedem $x$ zu jedem $y$"_
+							<!-- https://users.cg.tuwien.ac.at/zsolnai/wp/wp-content/uploads/2014/01/adaptivemetro_eg.pdf -->
+							- _"$\pi$ unabhängig von Startzustand"_
+					</div>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1"> Ergodizität </h1>
+					<div data-markdown>
+						$\Longleftrightarrow$
+						1. Aperiodizität 
+							- $\nexists k>1:\forall a,b, x_a\rightarrow^* x_b: \quad   b-a \mod k = 0$  
+							- $\Longleftarrow$ Selbstübergang + Balance
+						2. Positive Rekurrenz ($= \neg$ Transienz)
+							- kehrt beliebig oft in Startzustand zurück
+							- genau eine Rekurrenzklasse
+					</div>
+				</section>
+				<section data-auto-animate>
+					<!-- https://hedibert.org/wp-content/uploads/2013/12/1995ChibGreenberg.pdf -->
+					<h1 data-id="h1"> Wie wählt man G? </h1>
+					<div data-markdown>
+						- $G(y \\,|\\, x) = G_1(x-y)$
+							- *Random Walk*
+							- $y=x+z$ mit "Rauschen" $z$ 
+							- z.B. $z\sim\mathcal{N}$
+						- $G(y \\,|\\, x) = G_2(y)$ 
+							- *Independence Chain*
+							- z.B. Importance Sampling von $f$
+					</div>
+				</section>
+				<section data-auto-animate>
+					<!-- https://hedibert.org/wp-content/uploads/2013/12/1995ChibGreenberg.pdf -->
+					<h1 data-id="h1"> Wie wählt man G? </h1>
+					<div data-markdown>
+						- zu wenig Varianz: 
+							- unwahrscheinliche Gebiete unterrepräsentiert
+							- Domäne wird langsam durchsucht
+						- zu hohe Varianz: 
+							- lokale Information wird nicht genutzt
+						- optimale Akzeptanzraten $\chi$ problemabhängig
+					</div>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1">Wie wählt man G?</h1>
+					<div style="display: flex;">
+						<div class="slide-canv" style="position: relative;">
+							<canvas id="variance" class="fill" style="z-index:1; position:absolute;top:0; left:0;" height="516" width="960"></canvas>
+						</div>
+						<div style=" border: 2px solid white;width: 25%;height: 50vh;">
+							<p style="font-size: medium;">Standardabweichung (e-2)</p>
+							<input type="number" value="1" id="var-small-step" min="1" max="100" style="width:80%"/>
+							<p style="font-size: medium;">ℙ globale Mutation (e-2)</p>
+							<input type="number" value="0" id="var-big-step" min="0" max="100" style="width:80%"/>
+							<p id="var-sample-count" style="font-size: medium;">Sample Anzahl</p>
+							<input type="range" value="100" id="var-steps" min="1" max="1000" style="width:80%" oninput="update_var_sample_count_text()"/>
+							<p id="var-acceptance" style="font-size: medium;">0</p>
+							<p id="var-quality" style="font-size: medium;">0</p>
+							<script>
+								function update_var_sample_count_text(){
+									let samples = parseInt(document.getElementById("var-steps").value)
+									document.getElementById("var-sample-count").innerText = "Sample Anzahl (" + samples + ")"
+								}
+								update_var_sample_count_text()
+							</script>
+						</div>
+					</div>
+					<p class="p-hint fixbot">klicken</p>
+				</section>
+
+				<section data-auto-animate>
+					<h1 data-id="h1"> Anwendung </h1>
+					<h3> Metropolis Light Transport </h3>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1"> PSSMLT </h1>
+					<div data-markdown>
+					- Idee: Pathtracer ist Funktion $L(\vec{\mathbf{x}}, x_c, y_c): [0;1]^n\mapsto ℝ$ 
+					- Primary Sample Space: Zufallsvektor $\vec{\mathbf{x}} \in [0;1]^n$
+					- Farbe an Stelle $x_c, y_c$ ist $\int_{[0;1]^n}L (\vec{\mathbf{x}}, x_c, y_c)\\, d\vec{\mathbf{x}}$
+					- *Metropolis Sampling* für $\vec{\mathbf{x}}_k$
+					</div>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1"> PSSMLT </h1>
+					nutze seltene, lichttragende Pfade voll aus
+					<img src="res/ajar.png" style="height: 400px;"/>
+
+					<p class="mini-katex">$[\text{Bitterli 2016}]$</p>
+				</section>
+				<section data-auto-animate>
+					<!-- <h1 data-id="h1"> PSSMLT </h1> -->
+					<div style="display: flex; flex-direction: row; justify-content: center;">
+						<div id="three-canv" class="square-canv"></div>
+						<div class="square-canv">
+							<canvas id="pssmlt-graph"/>
+						</div>
+					</div>
+				</section>
+
+				<!-- <section data-auto-animate>
+					<h1 data-id="h1"> Integrale </h1>
+					<div data-markdown>
+						$ \pi(x) = \frac{f(x)}{\int f(x)} \Longrightarrow \int f(x) = \frac{f(x)}{\pi(x)}$
+						- $x_k \sim \pi \quad $ via Metropolis-Hastings
+						- $\frac{1}{N} \sum_{k=1}^{N} f(x_k) \overset{N\to\infty}{\longrightarrow}\int f(x)\\,dx \quad$ mit ℙ=1
+
+						Vergleiche mit Monte-Carlo Integral
+						- $\frac{1}{N} \sum_{k=1}^{N} \frac{f(x)}{p(x)}\quad$  $p\propto f$ optimal
+					</div>
+				</section> -->
+				
+			</div>
+		</div>
+
+		<style>
+			/* STYLE DEFINITIONS */
+			h1.mainheader{font-size: 9vw; line-height: 6vw;}
+			html{ font-family: Degular; }
+			h1{ text-transform: uppercase; }
+			.bg_clickable{cursor: pointer; width: 100vw; height: 100vh;  top: -50vh; position: relative;}
+			.fullfixedcanv{top: 0;
+				left: 0;
+				position: absolute;
+				width: 100vw;
+				height: 100vh;
+			}
+			.slide-canv{  max-width: 50vw; height: 50vh; width: 50vw; max-height: 50vh; }
+			.square-canv{ aspect-ratio: 1; height: 50vmin; }
+			.square-canv > canvas { width:100% !important; height:100% !important; }
+			.fill{  width: 100%; height: 100%; }
+			.katex{font: normal calc(var(--r-main-font-size) - 5pt) KaTeX_Main,Times New Roman,serif}
+			.mini-katex > span > span > span {font-size: 15pt;}
+			.mini-katex{margin: 0 !important; margin-top: 0px !important; margin-top: -35pt !important;}
+			.p-hint{position: absolute; bottom: 25vmax; margin-left: 50% !important; transform: translateX(-50%); font-size: 10pt; color:#888888}
+			.fixbot{ bottom: 0 !important;}
+			:root {
+				--r-link-color: #ddd;
+				--r-main-font: Degular;
+				--r-main-font-size: 30pt;
+				--r-heading-font: DegularBold;
+			}
+		</style>
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				controls: false,
+				progress: true,
+				center: true,
+				history:true,
+				previewLinks: true,
+				transition: 'fade',  // none/fade/slide/convex/concave/zoom
+				transitionSpeed: 'fast', // default/fast/slow	
+
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMarkdown, RevealMath.KaTeX ]
+			});
+			const slide_changed_callback = () => {
+				let ind = Reveal.getIndices().h
+				// set first bg visibility
+				if (ind===0){
+					document.getElementById("main-bg").style.display = "block" 
+				} else {
+					document.getElementById("main-bg").style.display = "none" 
+				}
+			}
+			Reveal.addEventListener('slidechanged', slide_changed_callback);
+			setTimeout(slide_changed_callback, 100)
+		</script>
+		<script src="js/metropolis.js"></script>
+		<script type="module" src="js/three.js"></script>
+	</body>
+</html>
