@@ -4,4 +4,4 @@ Interactive presentation about Metropolis Sampling and the Metropolis-Hastings a
 
 <img src="./res/title.png"/>
 
-Made using three
+Made using [Reveal JS](https://revealjs.com/), the canvas API and [Three.js](https://threejs.org/).

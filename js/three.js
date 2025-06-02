@@ -78,7 +78,7 @@ scene.add(light);
 const cam_pos = [0,0,bs]
 const gltfLoader = new GLTFLoader();
 gltfLoader.load(
-  '/models/camera_shifted.glb',
+  '/metropolis/models/camera_shifted.glb',
   function (gltf) {
     const model = gltf.scene;
     model.position.set(cam_pos[0],cam_pos[1],cam_pos[2]);
