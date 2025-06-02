@@ -390,6 +390,7 @@ const canv = document.getElementById("pssmlt-graph")
 const ctx = canv.getContext("2d");
 canv.height = h_three
 canv.width = w_three
+let pointer_x = null
 
 
 function redraw(){
@@ -399,8 +400,19 @@ function redraw(){
   ctx.fillStyle = "white"
   ctx.font = String(size_pt) + "pt Degular";
   ctx.textAlign = "center"
-  ctx.fillText("Primary Sample Space [0;1]", w_three/2, h_three/1.8);
-  ctx.fillText("Strahldichte [0;1]", w_three/2, h_three-size_pt/2);
+  ctx.fillText("Primary Sample Space", w_three/2, h_three/1.8);
+  ctx.fillText("Strahldichte", w_three/2, h_three-size_pt/2);
+
+  // draw hover line
+  console.log(pointer_x)
+  if (pointer_x){
+    ctx.lineWidth = 1
+    ctx.strokeStyle = "#ffffff"
+    ctx.beginPath();
+    ctx.moveTo(pointer_x*w_three, 0);
+    ctx.lineTo(pointer_x*w_three, h_three);
+    ctx.stroke();
+  }
 
   // draw the radiance graph
   const height = x => (0.99-x)*h_three/2  + h_three/2
@@ -439,11 +451,8 @@ function redraw(){
           height(all_paths[p].randoms[i]) - h_three/2
         );
       }
-      
-      
     }
     ctx.stroke();
-
   }
 }
 redraw()
@@ -477,10 +486,20 @@ function resetPathHighlights() {
 let canv_locked = false 
 let path_selected = 0
 canv.onclick = (_)=>{canv_locked = !canv_locked}
-canv.onpointerleave = (_)=>{if (!canv_locked) {resetPathHighlights()}}
+canv.onpointerleave = (_)=>{
+  if (!canv_locked) {
+    resetPathHighlights()
+    pointer_x = null;
+  };
+  redraw()
+}
 canv.onpointermove = (e)=>{
-  const rect = canv.getBoundingClientRect();
-  path_selected = Math.floor(((e.clientX - rect.left) / rect.width) * all_paths.length);
-  highlightPath(path_selected)
+  if (!canv_locked){
+    const rect = canv.getBoundingClientRect();
+    pointer_x = ((e.clientX - rect.left) / rect.width) 
+    redraw()
+    path_selected = Math.floor(pointer_x * all_paths.length);
+    highlightPath(path_selected)
+  }
 }
 

@@ -98,25 +98,29 @@ function draw_bg_main() {
 }
 const toggle_bg = () => {if (bg_enabled) {bg_enabled = false; clear_bg_main(); bg_segments_painted = 0;} else {bg_enabled = true; draw_bg_main()}}
 
-if (main_bg_canv.getContext) {
-    {
-        // initialize buffer
-        const canvas = document.getElementById("main-bg-buff")
-        canvas.width = wg; canvas.height = hg
-        const ctx = canvas.getContext("2d");
-        let size_vw = 15
-        let lineheight = 0.01*size_vw*2./3.*wg;
-        ctx.fillStyle = "white"
-        ctx.font = String(size_vw) + "vw DegularBold";
-        ctx.textAlign = "center"
-        ctx.fillText("METROPOLIS", wg/2, hg/2);
-        ctx.fillText("SAMPLING", wg/2, hg/2+lineheight);
-        bg_buf_data = ctx.getImageData(0, 0, wg, hg);
+const start_animation = () => {
+    if (main_bg_canv.getContext) {
+        {
+            // initialize buffer
+            const canvas = document.getElementById("main-bg-buff")
+            canvas.width = wg; canvas.height = hg
+            const ctx = canvas.getContext("2d");
+            let size_vw = 15
+            let lineheight = 0.01*size_vw*2./3.*wg;
+            ctx.fillStyle = "white"
+            ctx.font = String(size_vw) + "vw DegularBold";
+            ctx.textAlign = "center"
+            ctx.fillText("METROPOLIS", wg/2, hg/2);
+            ctx.fillText("SAMPLING", wg/2, hg/2+lineheight);
+            bg_buf_data = ctx.getImageData(0, 0, wg, hg);
+        }
+        bg_ctx = main_bg_canv.getContext("2d");
+        bg_ctx.strokeStyle = bgcol
+        draw_bg_main()
     }
-    bg_ctx = main_bg_canv.getContext("2d");
-    bg_ctx.strokeStyle = bgcol
-    draw_bg_main()
 }
+// delay drawing the bg buffer to give the font a chance to load
+setTimeout(start_animation, 500)
 
 // ====================================================================================================================
 
