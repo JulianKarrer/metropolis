@@ -1,8 +1,8 @@
-import * as THREE from '/js/three.module.js';
-import { GLTFLoader } from '/js/GLTFLoader.js';
-import { LineMaterial } from '/js/LineMaterial.js';
-import { LineGeometry } from '/js/LineGeometry.js';
-import { Line2 } from '/js/Line2.js';
+import * as THREE from './three.module.js';
+import { GLTFLoader } from './GLTFLoader.js';
+import { LineMaterial } from './LineMaterial.js';
+import { LineGeometry } from './LineGeometry.js';
+import { Line2 } from './Line2.js';
 
 const MAX_SEGMENTS = 5
 const STEPS = 1000
