@@ -344,32 +344,30 @@ reinvent(document.getElementById("reinvent-blind"), false)
 
 // ====================================================================================================================
 function gen_point_1d(last, f, bigstep_p, stepsize){
-    // define function to sample
-    let rej = 0
-    while (true){
-        // make a proposal
-        let px 
-        if (Math.random() < bigstep_p){
-            // global step
-            px = Math.random()
-        } else {
-            // local step
-            // generate standard normal dist
-            // https://bjlkeng.io/posts/sampling-from-a-normal-distribution/
-            let fact = Math.sqrt(-2*Math.log(Math.random()))
-            let inner = 2.*Math.PI*Math.random()
-            let X = fact * Math.cos(inner)
-            // scale the std. normal distribution and add it to last sample
-            // use periodic boudnary conditions
-            px = periodic(last + X * stepsize)
-        }
-        // if the proposal is accepted, return
-        let alpha = f(px)/f(last)
-        if (Math.random() <= alpha ){
-            // also accept jump in case 0/0
-            return [px, rej]
-        } 
-        rej += 1
+    // make a proposal
+    let px 
+    if (Math.random() < bigstep_p){
+        // global step
+        px = Math.random()
+    } else {
+        // local step
+        // generate standard normal dist
+        // https://bjlkeng.io/posts/sampling-from-a-normal-distribution/
+        let fact = Math.sqrt(-2*Math.log(Math.random()))
+        let inner = 2.*Math.PI*Math.random()
+        let X = fact * Math.cos(inner)
+        // scale the std. normal distribution and add it to last sample
+        // use periodic boudnary conditions
+        px = periodic(last + X * stepsize)
+    }
+    // if the proposal is accepted, return
+    let f_last = f(last)
+    let alpha = f_last < 1e-15 ? 1 : f(px)/f_last
+    if (Math.random() <= alpha ){
+        // also accept jump in case 0/0
+        return [px, alpha, false]
+    } else {
+        return [last, alpha, true]
     }
 }
 
@@ -398,7 +396,9 @@ function variance(canv){
     const ctx = canv.getContext("2d");
     let dots = []
 
-    const f = x => Math.max(gauss(x, 0.2, 0.003) + 1.5* gauss(x, 0.6, 0.01) - 0.1, 0.001)
+    const f = x => Math.max(gauss(x, 0.2, 0.003) + 1.5* gauss(x, 0.7, 0.01) - 0.1, 0.)/2.4015621763016908
+    // print integral:
+    // console.log([...Array(100000).keys()].map(x=> f(x/100000)).reduce((acc, val) => acc + val, 0)/100000)
 
     function redraw(){
         ctx.fillStyle = "rgba(255,255,255,0.5)"
@@ -416,26 +416,23 @@ function variance(canv){
         }
     }
 
-
     function generate_dots (e){
         let small_step_size = parseInt(document.getElementById("var-small-step").value)*1e-2
         let big_step_prob = parseInt(document.getElementById("var-big-step").value)*1e-2
         let samples = parseInt(document.getElementById("var-steps").value)
-        
+        // calculate the expected integral 
         let rejected = 0
         dots = [Math.random()]
-        dots_exact = [Math.random()]
         for (let i=0; i<samples-1;i++){
-            let [x, rej] = gen_point_1d(dots.at(-1), f, big_step_prob, small_step_size)
+            let [x, alpha, rej] = gen_point_1d(dots.at(-1), f, big_step_prob, small_step_size)
+            if (rej) {rejected += 1}
             dots.push(x)
-            for (let i=0; i<rej; i++){
-                dots_exact.push(dots.at(-1))
-            }
-            dots_exact.push(x)
-            rejected += rej
         }
-        let quality = measure_quality(dots_exact, f, 1000)
-        document.getElementById("var-acceptance").innerText = "Akzeptanz " + (100*samples/(rejected+samples)).toFixed(1) + "%"
+        // let quality = measure_quality(dots_exact, f, 1000)
+        let measured = dots.slice(1).reduce((acc, val) => acc + val, 0)/samples/0.49880815184934924;
+        // console.log(measured)
+        let quality = ((1.-(Math.abs(1.0-measured)))*100);
+        document.getElementById("var-acceptance").innerText = "Akzeptanz " + (100*(1-rejected/samples)).toFixed(1) + "%"
         document.getElementById("var-quality").innerText = "Genauigkeit " + quality.toFixed(1) + "%"
         redraw()
     }

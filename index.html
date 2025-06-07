@@ -13,6 +13,8 @@
 		<!-- Theme used for syntax highlighted code -->
 		<base href="/metropolis/">
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+		<link rel="icon" type="image/x-icon" href="favicon.ico">
 	</head>
 	<body>
 		<style>
@@ -60,6 +62,9 @@
 				</section>
 				<section data-auto-animate>
 					<h1 data-id="h1"> Eigenschaften </h1>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1"> Eigenschaften </h1>
 					<div data-markdown>
 						- $\\{x_k\\}$ bilden eine *Markovkette*
 						- Kette "vergisst", nur $x_k$ bestimmt $x_{k+1}$
@@ -68,9 +73,23 @@
 					</div>
 				</section>
 				<section data-auto-animate>
+					<h1 data-id="h1"> Korrektheit </h1>
+					<div data-markdown>
+						Metropolis-Hastings konvergiert gegen korrektes $\pi(x)$ wenn:
+
+						1. $\pi$ ist *invariant*
+						2. $G$ ist **ergodisch**
+						3. $G$ is aperiodisch
+						- *wenn $x_k \sim \pi$ dann $x_{k+1} \sim \pi$*
+						- *jeder mögliche Zustand wird erreicht*
+						- *von $x$ nach $y$ in *beliebiger* Schrittzahl*
+					</div>
+					<p class="p-hint fixbelow">[Šik & Jaroslav 2018] </p>
+				</section>
+				<section data-auto-animate>
 					<h1 data-id="h1"> Gleichgewicht </h1>
 					<div data-markdown>
-						- per Konstruktion $\pi(x) ℙ(x|y) = \pi(y)  ℙ(y|x)$
+						- per Konstruktion $\pi(x) ℙ(x_k=x|x_{k-1}=y) = \pi(y)  ℙ(x_k=y|x_{k-1}=x)$
 							- _detailed balance_, Equilibrium
 							- Hastings-Term $\frac{G(x' | x_k)}{G(x_k | x')}$ für asymmetrische $G$
 						- $\overset{SC}{\Longrightarrow}$ $\pi(x)$ ist invariante Verteilung zu ℙ
@@ -97,14 +116,15 @@
 				<section data-auto-animate>
 					<h1 data-id="h1"> Ergodizität </h1>
 					<div data-markdown>
-						- Ergodisch = Irreduzibel
-							- $\pi(x) , \pi(y)>0 \Longrightarrow \exists k<\infty: ℙ(x_k \in dy | x) > 0$
-							- _"irgendwann von jedem $x$ zu jedem $y$"_
+						- Ergodisch (Irreduzibel)
+							- $\forall x: f(y)>0 \Longrightarrow \exists k<\infty: ℙ(x_k \in dy | x) > 0$
+							- _"zu jedem möglichen $y$ in endlich vielen Schritten"_
 							<!-- https://users.cg.tuwien.ac.at/zsolnai/wp/wp-content/uploads/2014/01/adaptivemetro_eg.pdf -->
 							- _"$\pi$ unabhängig von Startzustand"_
+						- Globale Mutation löst dieses Problem, jedes $y$ möglich
 					</div>
 				</section>
-				<section data-auto-animate>
+				<!-- <section data-auto-animate>
 					<h1 data-id="h1"> Ergodizität </h1>
 					<div data-markdown>
 						$\Longleftrightarrow$
@@ -115,6 +135,24 @@
 							- kehrt beliebig oft in Startzustand zurück
 							- genau eine Rekurrenzklasse
 					</div>
+				</section> -->
+				<section data-auto-animate>
+					<h1 data-id="h1"> Aperiodizität </h1>
+					<div data-markdown>
+						Aperiodisch
+						- $\nexists k>1:\forall a,b, x_a\rightarrow^* x_b: \quad   b-a \mod k = 0$  
+						- $\Longleftarrow$ Selbstübergang + Balance
+					</div>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1"> Rekurrenz </h1>
+					<div data-markdown>
+						Positive Rekurrenz ($= \neg$ Transienz)
+						- $x$ rekurrent $\Leftrightarrow \forall y: \left(x \rightarrow^* y\right) \Rightarrow \left(y \rightarrow^* x\right)$
+						- kehrt beliebig oft in Startzustand zurück 
+						- ergodisch $\Leftrightarrow$ max. eine Rekurrenzklasse + aperiodisch
+					</div>
+					<p class="p-hint fixbelow">[Gundersen 2019] </p>
 				</section>
 				<section data-auto-animate>
 					<!-- https://hedibert.org/wp-content/uploads/2013/12/1995ChibGreenberg.pdf -->
@@ -138,8 +176,11 @@
 							- Domäne wird langsam durchsucht
 						- zu hohe Varianz: 
 							- lokale Information wird nicht genutzt
-						- optimale Akzeptanzraten $\chi$ problemabhängig
+						- optimale Akzeptanzraten $\chi$ problemabhängig 
+						
+						($ \chi_1=0.44,\\quad \chi_\infty=0.234$)
 					</div>
+					<p class="p-hint fixbelow">[Agrawal et al. 2023]</p>
 				</section>
 				<section data-auto-animate>
 					<h1 data-id="h1">Wie wählt man G?</h1>
@@ -170,9 +211,27 @@
 
 				<section data-auto-animate>
 					<h1 data-id="h1"> Vor- und Nachteile </h1>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1"> Vorteile </h1>
 					<div data-markdown>
-						TODO
+						- Nur punktweise Auswertung von $f$ nötig
+						- Kein Vorwissen über $f$, keine Kontinuität
+						- nutzt lokale Informationen (!)
+						- effizienter in höheren Dimensionen
 					</div>
+				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1"> Nachteile </h1>
+					<div data-markdown>
+						- $\\{x_k\\}$ sind korreliert ($\chi$ niedrig?)
+						- transiente Phase praktisch nutzlos
+						- Konvergenzdauer unklar
+						- Anfangsphase ungenau, wenn nicht $x_0 \sim \pi$ 
+						  - *"start-up bias"* oder *"burn-in period"*
+						  - $\Rightarrow$ Bootstrapping
+					</div>
+					<p class="p-hint fixbelow">[Šik & Jaroslav 2018] [Kelemen 2002]</p>
 				</section>
 
 
@@ -183,19 +242,20 @@
 				<section data-auto-animate>
 					<h1 data-id="h1"> PSSMLT </h1>
 					<div data-markdown>
-					- Idee: Pathtracer ist Funktion $L(\vec{\mathbf{x}}, x_c, y_c): [0;1]^n\mapsto ℝ$ 
+					- Idee: Pathtracer ist Funktion $L(\vec{\mathbf{x}}, x_c, y_c): [0;1]^n\mapsto ℝ^+$ 
 					- Primary Sample Space: Zufallsvektor $\vec{\mathbf{x}} \in [0;1]^n$
-					- Farbe an Stelle $x_c, y_c$ ist $\int_{[0;1]^n}L (\vec{\mathbf{x}}, x_c, y_c)\\, d\vec{\mathbf{x}}$
-					- *Metropolis Sampling* für $\vec{\mathbf{x}}_k$
+					- Strahldichte an Stelle $x_c, y_c$ ist $\int_{[0;1]^n}L (\vec{\mathbf{x}}, x_c, y_c)\\, d\vec{\mathbf{x}}$
+					- Monte Carlo Summe: $\frac{1}{N} \sum_{k=1}^N \frac{f(x_k)}{p(x_k)} \underset{N\to\infty}{\rightarrow} \int f(x)\\, dx$
+					- *Metropolis Sampling* für *Importance Sampling* von $\vec{\mathbf{x}}_k$
 					</div>
-					<p class="p-hint fixbelow">[PSSMLT 2002]</p>
+					<p class="p-hint fixbelow">[Kelemen 2002]</p>
 				</section>
 				<section data-auto-animate>
 					<h1 data-id="h1"> PSSMLT </h1>
 					nutze seltene, lichttragende Pfade voll aus
 					<img src="res/ajar.png" style="height: 400px;"/>
 
-					<p class="mini-katex">$[\text{Bitterli 2016}]$</p>
+					<p class="p-hint fixbelow">[Bitterli 2016]</p>
 				</section>
 				<section data-auto-animate>
 					<h5 data-id="h1"> PSSMLT Beispiel </h5>
@@ -206,23 +266,49 @@
 						</div>
 					</div>
 				</section>
+				<section data-auto-animate>
+					<h1 data-id="h1"> PSSMLT </h1>
+					Trick: Markov-Kette über Bildfläche $x_c=\vec{\mathbf{x}}_{k,1} \quad y_c = \vec{\mathbf{x}}_{k,2}$
+					<div>
+						\[
+						I_{x,y} = \int_\Omega h(\vec{\mathbf{x}}) L(\vec{\mathbf{x}}) \, d\Omega \approx \frac{1}{N} \sum_{k=1}^N \frac{ h(\vec{\mathbf{x}_k}) L(\vec{\mathbf{x}}_k)}{p(\vec{\mathbf{x}}_k)}\]
+
+						Metropolis Sampling mit $p(\vec{\mathbf{x}}) \approx \frac{L(\vec{\mathbf{x}})}{\int_\Omega L(\vec{\mathbf{x}})}$
+
+						\[
+						\Longrightarrow I_{x,y} \approx  \underbrace{\frac{1}{N} \sum_{k=1}^N h(\vec{\mathbf{x}_k})}_{\text{wo landen Samples?}} \cdot \underbrace{\left( \int_\Omega L(\vec{\mathbf{x}}) \right)}_{\text{Gesamthelligkeit}}
+						\]
+					</div>
+					<p class="p-hint fixbelow">[Pharr, Jakob, Humphreys 2021]</p>
+				</section>
 
 				<section data-auto-animate>
 					<h1 data-id="h1"> Zusammenfassung </h1>
-					<div data-markdown>
-						TODO
+					<div data-markdown style="font-size: 25pt;">
+						- MH-Algorithmus zieht aus unbekanntem $\pi \propto f$ mit Markov-Kette
+						- Kaum Voraussetzungen an $f:\Omega\to ℝ^+$
+						- Konvergenz für ergodische, aperiodische (und invariante) Ketten
+						- Effizienz stark von Vorschlagsverteilung $G$ abhängig
+						- Nutzen für Importance-Sampling
+						- PSSMLT nutzt lokale Nachbarschaft für schwierige Pfade
 					</div>
 				</section>
 
 
 				<section data-auto-animate>
-					<h2 data-id="h1"> Vielen Dank für Ihre Aufmerksamkeit! </h2>
-					<div data-markdown style="font-size: 20pt;">
-					- [Bitterli 2016] Website: Rendering Resources CC0, Benedikt Bitterli, (https://benedikt-bitterli.me/resources/)
-					sonstige Quellen
-					- [PSSMLT 2002] "A Simple and Robust Mutation Strategy for the Metropolis Light Transport Algorithm", Kelemen et al., in EUROGRAPHICS 2002
-					- [Chib & Greenberg 1995] "Understanding the Metropolis-Hastings Algorithm", Siddhartha Chib and Edward Greenberg, in The American Statistician Vol. 49 1995 
-					</div>
+					<h1 data-id="h1"> Vielen Dank für Ihre Aufmerksamkeit! </h1>
+				</section>
+				<section data-auto-animate>
+					<h5 data-id="h1"> Quellen </h5>
+					<ul style="font-size: 15pt;">
+					<li> 	   <span class="cit">[Kelemen 2002]</span> "A Simple and Robust Mutation Strategy for the Metropolis Light Transport Algorithm", Kelemen et al., in EUROGRAPHICS 2002
+					</li><li> <span class="cit">[Chib & Greenberg 1995]</span> "Understanding the Metropolis-Hastings Algorithm", Siddhartha Chib and Edward Greenberg, in The American Statistician Vol. 49 1995 
+					</li><li> <span class="cit">[Agrawal et al. 2023]</span> "Optimal Scaling of MCMC Beyond Metropolis", Agrawal et. al, in Advances in Applied Probability. 2023;
+					</li><li> <span class="cit">[Pharr, Jakob, Humphreys 2021]</span> "Physically Based Rendering: From Theory To Implementation", Matt Pharr, Wenzel Jakob, and Greg Humphreys, ISBN 978-0-12-375079-2
+					</li><li> <span class="cit">[Šik & Jaroslav 2018]</span> "Survey of Markov Chain Monte Carlo Methods in Light Transport Simulation", Martin Šik und Jaroslav Krivanek, in IEEE Transactions on Visualization and Computer Graphics
+					</li><li> <span class="cit">[Gundersen 2019]</span> Blog: "Ergodic Markov Chains", Gregory Gundersen, (gregorygundersen.com)
+					</li><li> <span class="cit">[Bitterli 2016]</span> Website: Rendering Resources CC0, Benedikt Bitterli, (benedikt-bitterli.me/resources)
+					</li></ul>
 				</section>
 
 				<!-- <section data-auto-animate>
@@ -259,9 +345,10 @@
 			.katex{font: normal calc(var(--r-main-font-size) - 5pt) KaTeX_Main,Times New Roman,serif}
 			.mini-katex > span > span > span {font-size: 15pt;}
 			.mini-katex{margin: 0 !important; margin-top: 0px !important; margin-top: -35pt !important;}
-			.p-hint{position: absolute; bottom: 25vmax; margin-left: 50% !important; transform: translateX(-50%); font-size: 10pt; color:#888888}
+			.p-hint{position: absolute; bottom: 25vmax; margin-left: 50% !important; transform: translateX(-50%); font-size: 12pt; color:#888888}
 			.fixbot{ bottom: 0 !important;}
-			.fixbelow{ bottom: -30pt !important; margin:0;}
+			.fixbelow{ bottom: -35pt !important; margin:0;}
+			.cit{color: #666;}
 			:root {
 				--r-link-color: #ddd;
 				--r-main-font: Degular;
