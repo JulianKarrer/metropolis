@@ -18,6 +18,12 @@
 	</head>
 	<body>
 		<style>
+			/* custom fragments */
+			.fragment.glow{-webkit-backface-visibility: hidden;backface-visibility: hidden; transform: translate3d(0,0,0); filter: drop-shadow(0px 0px 20px #23cbfa00);}
+			.fragment.glow.current-fragment{filter: drop-shadow(0px 0px 20px #23cafa);}
+
+			.fragment.glowfadein{opacity:0; -webkit-backface-visibility: hidden;backface-visibility: hidden; transform: translate3d(0,0,0); filter: drop-shadow(0px 0px 20px #23cbfa00);}
+			.fragment.glowfadein.current-fragment{opacity:1; filter: drop-shadow(0px 0px 20px #23cafa);}
 			/* FONT DEFINITIONS */
 			@font-face {font-family: "Degular"; src: local("Degular"), url("fonts/DegularVariable.woff2") format("woff2"); font-variation-settings: "wght" 300;}
 			@font-face { font-family: "DegularBold"; src: local("Degular"), url("fonts/DegularVariable.woff2") format("woff2"); font-variation-settings: "wght" 800;}
@@ -51,13 +57,22 @@
 				</section>
 				<section data-auto-animate>
 					<h1 data-id="h1">Algorithmus </h1>
-					<div data-markdown>
+					<div>
 						Gegeben: Funktion $f(x)$, Vorschläge $G(x_{k+1} | x_k)$, Startpunkt $x_0$
-						1. Ziehe Vorschlag $\quad x' \sim G(x' | x_k)$
-						2. Akzeptanzwahrscheinlichkeit $\quad \alpha = \frac{f(x')}{f(x_k)} \cdot \underbrace{\frac{G(x' | x_k)}{G(x_k | x')}}_{\text{Hastings Term}}$
-						3. Entscheide zufällig: $\quad u \sim \mathcal{U}(0,1)$
-							- $u \leq \alpha: \quad\quad\quad  x_{k+1}  = x'  \quad$ _(Akzeptanz)_
-							- ansonsten: $ \quad x_{k+1}  = x_k \quad$ _(Ablehnung)_
+						<ol>
+							<li>Ziehe Vorschlag $\quad x' \sim G(x' | x_k)$</li>
+							<li>Akzeptanzwahrscheinlichkeit $\quad \alpha = $
+								<span class="fragment custom glow"">$\frac{f(x')}{f(x_k)}$</span>
+								$\cdot$ 
+								<span class="fragment custom glow"">$\underbrace{\frac{G(x' | x_k)}{G(x_k | x')}}_{\text{Hastings Term}}$</span>
+							</li>
+							<li> Entscheide zufällig: $\quad u \sim \mathcal{U}(0,1)$
+								<ul>
+									<li>$u \leq \alpha: \quad\quad\quad  x_{k+1}  = x'  \quad$ (Akzeptanz)</li>
+									<li>ansonsten: $ \quad x_{k+1}  = x_k \quad$ (Ablehnung)</li>
+								</ul>
+							</li>
+						</ol>
 					</div>
 				</section>
 				<section data-auto-animate>
@@ -89,7 +104,7 @@
 				<section data-auto-animate>
 					<h1 data-id="h1"> Gleichgewicht </h1>
 					<div data-markdown>
-						- per Konstruktion $\pi(x) ℙ(x_k=x|x_{k-1}=y) = \pi(y)  ℙ(x_k=y|x_{k-1}=x)$
+						- per Konstruktion $\pi(x) ℙ(x|y) = \pi(y)  ℙ(y|x)$
 							- _detailed balance_, Equilibrium
 							- Hastings-Term $\frac{G(x' | x_k)}{G(x_k | x')}$ für asymmetrische $G$
 						- $\overset{SC}{\Longrightarrow}$ $\pi(x)$ ist invariante Verteilung zu ℙ

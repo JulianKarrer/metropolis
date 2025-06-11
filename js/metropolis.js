@@ -98,6 +98,7 @@ function draw_bg_main() {
 }
 const toggle_bg = () => {if (bg_enabled) {bg_enabled = false; clear_bg_main(); bg_segments_painted = 0;} else {bg_enabled = true; draw_bg_main()}}
 
+
 const start_animation = () => {
     if (main_bg_canv.getContext) {
         {
@@ -107,6 +108,24 @@ const start_animation = () => {
             const ctx = canvas.getContext("2d");
             let size_vw = 15
             let lineheight = 0.01*size_vw*2./3.*wg;
+            // for debug image
+            // const scl = 0.02
+            // const f_1 = (x, y) => gauss(x,0.1,scl) * gauss(y,0.9,scl)
+            // const f_2 = (x, y) => gauss(x,0.9,scl) * gauss(y,0.1,scl)
+            // const f = (x,y) => 0.05*f_1(x,y)+ 0.05*f_2(x,y)
+            // let id = ctx.createImageData(1,1)
+            // let data = id.data
+            // for (let x=0; x<wg; x++){
+            //     for (let y=0; y<hg; y++){
+            //         data[0]   = 255;
+            //         data[1]   = 255;
+            //         data[2]   = 255;
+            //         data[3]   = f(x/wg,y/hg)*255;
+            //         console.log(x,y,f(x/wg,y/hg)*255)
+            //         ctx.putImageData( id, x, y );     
+            //     }
+            // }
+            // draw text
             ctx.fillStyle = "white"
             ctx.font = String(size_vw) + "vw DegularBold";
             ctx.textAlign = "center"
