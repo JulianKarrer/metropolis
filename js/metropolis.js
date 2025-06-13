@@ -112,7 +112,7 @@ const start_animation = () => {
             // const scl = 0.02
             // const f_1 = (x, y) => gauss(x,0.1,scl) * gauss(y,0.9,scl)
             // const f_2 = (x, y) => gauss(x,0.9,scl) * gauss(y,0.1,scl)
-            // const f = (x,y) => 0.05*f_1(x,y)+ 0.05*f_2(x,y)
+            // const f = (x,y) => 0.1*f_1(x,y)+ 0.1*f_2(x,y)
             // let id = ctx.createImageData(1,1)
             // let data = id.data
             // for (let x=0; x<wg; x++){
@@ -121,7 +121,6 @@ const start_animation = () => {
             //         data[1]   = 255;
             //         data[2]   = 255;
             //         data[3]   = f(x/wg,y/hg)*255;
-            //         console.log(x,y,f(x/wg,y/hg)*255)
             //         ctx.putImageData( id, x, y );     
             //     }
             // }
@@ -132,9 +131,15 @@ const start_animation = () => {
             ctx.fillText("METROPOLIS", wg/2, hg/2);
             ctx.fillText("SAMPLING", wg/2, hg/2+lineheight);
             bg_buf_data = ctx.getImageData(0, 0, wg, hg);
+            // console.log("drawing finished")
+            // let link = document.createElement("a");
+            // link.setAttribute('download', 'title_solution.png');
+            // link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+            // link.click();
         }
         bg_ctx = main_bg_canv.getContext("2d");
         bg_ctx.strokeStyle = bgcol
+        
         draw_bg_main()
     }
 }

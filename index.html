@@ -30,11 +30,14 @@
 		</style>
 		<canvas id="main-bg" class="fullfixedcanv"></canvas>
 		<canvas id="main-bg-buff" class="fullfixedcanv" style="display: none;"></canvas>
+		<img id="main-bg-solution" src="res/title_bg.png" class="fullfixedcanv" style="display: none;">
 		<div class="reveal">
 			<div class="slides">
 				<section>
 					 <div class="bg_clickable" onclick="toggle_bg()"></div>
 					 <p class="p-hint">klicken</p>
+				</section>
+				<section>
 				</section>
 				<section data-auto-animate>
 					<h1 data-id="h1">Gliederung</h1>
@@ -58,7 +61,7 @@
 				<section data-auto-animate>
 					<h1 data-id="h1">Algorithmus </h1>
 					<div>
-						Gegeben: Funktion $f(x)$, Vorschläge $G(x_{k+1} | x_k)$, Startpunkt $x_0$
+						Gegeben: $f: \Omega\mapsto ℝ^+$, Vorschläge $G(x_{k+1} | x_k)$, Startpunkt $x_0$
 						<ol>
 							<li>Ziehe Vorschlag $\quad x' \sim G(x' | x_k)$</li>
 							<li>Akzeptanzwahrscheinlichkeit $\quad \alpha = $
@@ -107,6 +110,8 @@
 						- per Konstruktion $\pi(x) ℙ(x|y) = \pi(y)  ℙ(y|x)$
 							- _detailed balance_, Equilibrium
 							- Hastings-Term $\frac{G(x' | x_k)}{G(x_k | x')}$ für asymmetrische $G$
+							<!-- https://kkhauser.web.illinois.edu/teaching/notes/MetropolisExplanation.pdf -->
+							- MH optimal unter balancierten Ketten
 						- $\overset{SC}{\Longrightarrow}$ $\pi(x)$ ist invariante Verteilung zu ℙ
 						- aber ist $\pi(x)$ die korrekte Verteilung?
 					</div>
@@ -390,6 +395,7 @@
 				transition: 'fade',  // none/fade/slide/convex/concave/zoom
 				transitionSpeed: 'fast', // default/fast/slow	
 
+				margin: 0.05,
 
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMarkdown, RevealMath.KaTeX ]
@@ -401,6 +407,12 @@
 					document.getElementById("main-bg").style.display = "block" 
 				} else {
 					document.getElementById("main-bg").style.display = "none" 
+				}
+				// set second by visibility
+				if (ind===1){
+					document.getElementById("main-bg-solution").style.display = "block" 
+				} else {
+					document.getElementById("main-bg-solution").style.display = "none" 
 				}
 			}
 			Reveal.addEventListener('slidechanged', slide_changed_callback);
