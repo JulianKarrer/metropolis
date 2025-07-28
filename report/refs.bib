@@ -1,0 +1,288 @@
+@ARTICLE{top10,
+author={Dongarra, J. and Sullivan, F.},
+journal={ Computing in Science \& Engineering },
+title={{Guest Editors Introduction to the top 10 algorithms}},
+year={2000},
+volume={2},
+number={01},
+ISSN={1558-366X},
+pages={22-23},
+abstract={ Presents the introductory Guest Editorial for this issue of the publication. },
+keywords={Linear algebra;History;Eigenvalues and eigenfunctions;Linear programming;Large-scale systems;Equations;Programmable control;Matrix decomposition;Sparse matrices;Art},
+doi={10.1109/MCISE.2000.814652},
+url = {https://doi.ieeecomputersociety.org/10.1109/MCISE.2000.814652},
+publisher={IEEE Computer Society},
+address={Los Alamitos, CA, USA},
+month=jan}
+
+@ARTICLE{survey,
+
+  author={Šik, Martin and Křivánek, Jaroslav},
+
+  journal={IEEE Transactions on Visualization and Computer Graphics}, 
+
+  title={{Survey of Markov Chain Monte Carlo Methods in Light Transport Simulation}}, 
+
+  year={2020},
+
+  volume={26},
+
+  number={4},
+
+  pages={1821-1840},
+
+  keywords={Markov processes;Monte Carlo methods;Proposals;Computational modeling;Histograms;Biological system modeling;Computer graphics;Markov chain Monte Carlo;metropolis-hastings;metropolis light transport;light transport simulation;STAR},
+
+  doi={10.1109/TVCG.2018.2880455}}
+
+@article{pssmlt,
+author = {Kelemen, Csaba and Szirmay-Kalos, László and Antal, György and Csonka, Ferenc},
+title = {{A Simple and Robust Mutation Strategy for the Metropolis Light Transport Algorithm}},
+journal = {Computer Graphics Forum},
+volume = {21},
+number = {3},
+pages = {531-540},
+doi = {https://doi.org/10.1111/1467-8659.t01-1-00703},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/1467-8659.t01-1-00703},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1111/1467-8659.t01-1-00703},
+abstract = {Abstract This paper presents a new mutation strategy for the Metropolis light transport algorithm, which works in the unit cube of pseudo-random numbers instead of mutating in the path space. This transformation makes the integrand have lower variation and thus increases the acceptance probability of the mutated samples. Higher acceptance ratio, in turn, reduces the correlation of the samples, which increases the speed of convergence. We use both local mutations that choose a new random sample in the neighborhood of the previous one, and global mutations that make ``large steps'', and find the samples independently. Local mutations smooth out the result, while global mutations guarantee the ergodicity of the process. Due to the fact that samples are generated independently in large steps, this method can also be considered as a combination of the Metropolis algorithm with a classical random walk. If we use multiple importance sampling for this combination, the combined method will be as good at bright regions as the Metropolis algorithm and at dark regions as random walks. The resulting scheme is robust, efficient, but most importantly, is easy to implement and to combine with an arbitrary random-walk algorithm.},
+year = {2002}
+}
+
+
+@inbook{veach-guibas-mlt,
+author = {Veach, Eric and Guibas, Leonidas J.},
+title = {{Metropolis Light Transport}},
+year = {2023},
+isbn = {9798400708978},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+edition = {1},
+url = {https://doi.org/10.1145/3596711.3596744},
+abstract = {We present a new Monte Carlo method for solving the light transport problem, inspired by the Metropolis sampling method in computational physics. To render an image, we generate a sequence of light transport paths by randomly mutating a single current path (e.g. adding a new vertex to the path). Each mutation is accepted or rejected with a carefully chosen probability, to ensure that paths are sampled according to the contribution they make to the ideal image. We then estimate this image by sampling many paths, and recording their locations on the image plane.Our algorithm is unbiased, handles general geometric and scattering models, uses little storage, and can be orders of magnitude more efficient than previous unbiased approaches. It performs especially well on problems that are usually considered difficult, e.g. those involving bright indirect light, small geometric holes, or glossy surfaces. Furthermore, it is competitive with previous unbiased algorithms even for relatively simple scenes.The key advantage of the Metropolis approach is that the path space is explored locally, by favoring mutations that make small changes to the current path. This has several consequences. First, the average cost per sample is small (typically only one or two rays). Second, once an important path is found, the nearby paths are explored as well, thus amortizing the expense of finding such paths over many samples. Third, the mutation set is easily extended. By constructing mutations that preserve certain properties of the path (e.g. which light source is used) while changing others, we can exploit various kinds of coherence in the scene. It is often possible to handle difficult lighting problems efficiently by designing a specialized mutation in this way.},
+booktitle = {Seminal Graphics Papers: Pushing the Boundaries, Volume 2},
+articleno = {32},
+numpages = {12}
+}
+
+@article{metropolis-original-fast-computing,
+  author = {Metropolis, Nicholas and Rosenbluth, Arianna W. and Rosenbluth, Marshall N. and Teller, Augusta H. and Teller, Edward},
+  title = {{Equation of State Calculations by Fast Computing Machines}},
+  journal = {The Journal of Chemical Physics},
+  volume = {21},
+  number = {6},
+  pages = {1087-1092},
+  year = {1953},
+  month = {06},
+  abstract = {A general method, suitable for fast computing machines, for investigating such properties as equations of state for substances consisting of interacting individual molecules is described. The method consists of a modified Monte Carlo integration over configuration space. Results for the two‐dimensional rigid‐sphere system have been obtained on the Los Alamos MANIAC and are presented here. These results are compared to the free volume equation of state and to a four‐term virial coefficient expansion.},
+  issn = {0021-9606},
+  doi = {10.1063/1.1699114},
+  url = {https://doi.org/10.1063/1.1699114},
+  eprint = {https://pubs.aip.org/aip/jcp/article-pdf/21/6/1087/18802390/1087\_1\_online.pdf},
+}
+
+@article{hastings,
+ ISSN = {00063444, 14643510},
+ URL = {http://www.jstor.org/stable/2334940},
+ abstract = {A generalization of the sampling method introduced by Metropolis et al. (1953) is presented along with an exposition of the relevant theory, techniques of application and methods and difficulties of assessing the error in Monte Carlo estimates. Examples of the methods, including the generation of random orthogonal matrices and potential applications of the methods to numerical problems arising in statistics, are discussed.},
+ author = {W. K. Hastings},
+ journal = {Biometrika},
+ number = {1},
+ pages = {97--109},
+ publisher = {[Oxford University Press, Biometrika Trust]},
+ title = {{Monte Carlo Sampling Methods Using Markov Chains and Their Applications}},
+ urldate = {2025-07-17},
+ volume = {57},
+ year = {1970}
+}
+
+@book{pbrt,
+author = {Pharr, Matt and Jakob, Wenzel and Humphreys, Greg},
+title = {{Physically Based Rendering: From Theory to Implementation}},
+year = {2016},
+isbn = {0128006455},
+% chapter = {13.4 Metropolis Sampling},
+publisher = {Morgan Kaufmann Publishers Inc.},
+address = {San Francisco, CA, USA},
+edition = {3rd},
+}
+
+@article{understanding-mh-chib-greenberg,
+ ISSN = {00031305},
+ URL = {http://www.jstor.org/stable/2684568},
+ abstract = {We provide a detailed, introductory exposition of the Metropolis-Hastings algorithm, a powerful Markov chain method to simulate multivariate distributions. A simple, intuitive derivation of this method is given along with guidance on implementation. Also discussed are two applications of the algorithm, one for implementing acceptance-rejection sampling when a blanketing function is not available and the other for implementing the algorithm with block-at-a-time scans. In the latter situation, many different algorithms, including the Gibbs sampler, are shown to be special cases of the Metropolis-Hastings algorithm. The methods are illustrated with examples.},
+ author = {Siddhartha Chib and Edward Greenberg},
+ journal = {The American Statistician},
+ number = {4},
+ pages = {327--335},
+ publisher = {[American Statistical Association, Taylor & Francis, Ltd.]},
+ title = {{Understanding the Metropolis-Hastings Algorithm}},
+ urldate = {2025-07-17},
+ volume = {49},
+ year = {1995}
+}
+
+
+@online{mh-optimal,
+  author = {Kris Hauser},
+  title = {{Why does the Metropolis-Hastings procedure satisfy the detailed balance criterion?}},
+  year = 2013,
+  url = {https://kkhauser.web.illinois.edu/teaching/notes/MetropolisExplanation.pdf},
+  urldate = {2025-07-17},
+  note = {Blog / Teaching material (University of Illinois)},
+}
+
+@ARTICLE{convergence-mh,
+       author = {{Tsvetkov}, Dimiter and {Hristov}, Lyubomir and {Angelova-Slavova}, Ralitsa},
+        title = "{{On the convergence of the Metropolis-Hastings Markov chains}}",
+      journal = {arXiv e-prints},
+     keywords = {Mathematics - Statistics Theory},
+         year = 2013,
+        month = feb,
+          eid = {arXiv:1302.0654},
+        pages = {arXiv:1302.0654},
+          doi = {10.48550/arXiv.1302.0654},
+archivePrefix = {arXiv},
+       eprint = {1302.0654},
+ primaryClass = {math.ST},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2013arXiv1302.0654T},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+@online{transient-recurrent,
+  author = {Gregory Gundersen},
+  title = {{Ergodic Markov Chains}},
+  year = 2019,
+  url = {https://gregorygundersen.com/blog/2019/10/28/ergodic-markov-chains/},
+  urldate = {2025-07-21},
+  note = {Blog},
+}
+
+@article{bayesian-gibbs-mcmc,
+ ISSN = {00359246},
+ URL = {http://www.jstor.org/stable/2346063},
+ abstract = {The use of the Gibbs sampler for Bayesian computation is reviewed and illustrated in the context of some canonical examples. Other Markov chain Monte Carlo simulation methods are also briefly described, and comments are made on the advantages of sample-based approaches for Bayesian inference summaries.},
+ author = {A. F. M. Smith and G. O. Roberts},
+ journal = {Journal of the Royal Statistical Society. Series B (Methodological)},
+ number = {1},
+ pages = {3--23},
+ publisher = {[Royal Statistical Society, Oxford University Press]},
+ title = {{Bayesian Computation Via the Gibbs Sampler and Related Markov Chain Monte Carlo Methods}},
+ urldate = {2025-07-22},
+ volume = {55},
+ year = {1993}
+}
+
+@article{optimal-mcmc-scaling,
+ ISSN = {10505164},
+ URL = {http://www.jstor.org/stable/22451        
+@inproceedings{:10.2312/conf/EG2013/short/053-056
+,
+booktitle = {Eurographics 2013 - Short Papers
+},
+editor = {M.- A. Otaduy and O. Sorkine
+},
+title = {{Automatic Parameter Control for Metropolis Light Transport
+}},
+author = {Zsolnai, Károly and 
+Szirmay-Kalos, László
+},
+year = {2013
+},
+publisher = {The Eurographics Association
+},
+ISSN = {1017-4656
+},
+ISBN = {},
+DOI = {/10.2312/conf/EG2013/short/053-056
+}
+}
+        sequence of stochastic processes formed by the first component of each Markov chain converges to the appropriate limiting Langevin diffusion process. The limiting diffusion approximation admits a straightforward efficiency maximization problem, and the resulting asymptotically optimal policy is related to the asymptotic acceptance rate of proposed moves for the algorithm. The asymptotically optimal acceptance rate is 0.234 under quite general conditions. The main result is proved in the case where the target density has a symmetric product form. Extensions of the result are discussed.},
+ author = {G. O. Roberts and A. Gelman and W. R. Gilks},
+ journal = {The Annals of Applied Probability},
+ number = {1},
+ pages = {110--120},
+ publisher = {Institute of Mathematical Statistics},
+ title = {{Weak Convergence and Optimal Scaling of Random Walk Metropolis Algorithms}},
+ urldate = {2025-07-22},
+ volume = {7},
+ year = {1997}
+}
+
+@misc{optimal-low-dim-lower,
+      title={{Exploring the generalizability of the optimal 0.234 acceptance rate in random-walk Metropolis and parallel tempering algorithms}}, 
+      author={Aidan Li and Liyan Wang and Tianye Dou and Jeffrey S. Rosenthal},
+      year={2025},
+      eprint={2408.06894},
+      archivePrefix={arXiv},
+      primaryClass={stat.CO},
+      url={https://arxiv.org/abs/2408.06894}, 
+}
+
+@article{optimal-1d-044,
+   title={{The Random Walk Metropolis: Linking Theory and Practice Through a Case Study}},
+   volume={25},
+   ISSN={0883-4237},
+   url={http://dx.doi.org/10.1214/10-STS327},
+   DOI={10.1214/10-sts327},
+   number={2},
+   journal={Statistical Science},
+   publisher={Institute of Mathematical Statistics},
+   author={Sherlock, Chris and Fearnhead, Paul and Roberts, Gareth O.},
+   year={2010},
+   month=may }
+@article{transience,
+ ISSN = {13697412, 14679868},
+ URL = {http://www.jstor.org/stable/3647577},
+ abstract = {The paper considers high dimensional Metropolis and Langevin algorithms in their initial transient phase. In stationary, these algorithms are well understood and it is now well known how to scale their proposal distribution variances. For the random-walk Metropolis algorithm, convergence during the transient phase is extremely regular-to the extent that the algorithm's sample path actually resembles a deterministic trajectory. In contrast, the Langevin algorithm with variance scaled to be optimal for stationarity performs rather erratically. We give weak convergence results which explain both of these types of behaviour and practical guidance on implementation based on our theory.},
+ author = {Ole F. Christensen and Gareth O. Roberts and Jeffrey S. Rosenthal},
+ journal = {Journal of the Royal Statistical Society. Series B (Statistical Methodology)},
+ number = {2},
+ pages = {253--268},
+ publisher = {[Royal Statistical Society, Wiley]},
+ title = {Scaling Limits for the Transient Phase of Local Metropolis-Hastings Algorithms},
+ urldate = {2025-07-24},
+ volume = {67},
+ year = {2005}
+}
+
+@online{burn-in,
+  author = {Charles Geyer},
+  title = {{Burn-In is Unnecessary}},
+  year = {unknown publishing date, before 2012},
+  url = {http://users.stat.umn.edu/~geyer/mcmc/burn.html},
+  urldate = {2025-07-24},
+  note = {Blog/Teaching material (University of Minnesota, Twin Cities)},
+}
+
+        
+@inproceedings{mlt-auto-param
+,
+booktitle = {Eurographics 2013 - Short Papers
+},
+editor = {M.- A. Otaduy and O. Sorkine
+},
+title = {{Automatic Parameter Control for Metropolis Light Transport
+}},
+author = {Zsolnai, Károly and 
+Szirmay-Kalos, László
+},
+year = {2013
+},
+publisher = {The Eurographics Association
+},
+ISSN = {1017-4656
+},
+ISBN = {},
+DOI = {/10.2312/conf/EG2013/short/053-056
+}
+}
+
+@online{ajar,
+  author = {Benedikt Bitterli},
+  title = {{Rendering resources}},
+  year = {2016},
+  url = {https://benedikt-bitterli.me/resources/},
+  urldate = {2025-07-25},
+  note = {Blog / Public Domain Resources},
+}
